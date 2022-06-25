@@ -1,23 +1,29 @@
 :root {
     font-family: Arial, Helvetica, sans-serif;
+    --primary-color: rgb(9, 9, 104);
+    --secondary-color: rgb(220, 130, 238);
 }
 
 * {
     margin: 0;
     padding: 5px;
+    box-sizing: border-box;
 }
 
+/* style applies to everything in the heater */
 header {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 16px;
 }
 
+/* High score link */
 .view-score {
-    color: rgb(187, 107, 241);
+    color: var(--secondary-color);
     text-decoration: none;
 }
 
+/* style applies to everything in the main tag */
 main {
     display: flex;
     flex-direction: column;
@@ -31,7 +37,7 @@ main {
     align-items: center;
     justify-content: center;
     padding-top: 50px;
-    width: 65%;
+    width: 67%;
 }
 
 main section p {
@@ -40,10 +46,15 @@ main section p {
     margin: 10px;
 }
 
+/* style applies to all buttons */
 .quiz-btn {
     color: white;
-    background-color: rgb(9, 9, 104);
-    border-radius: 10%;
+    background-color: var(--primary-color);
+    border-radius: 5px;
     padding: 5px 10px;
 }
 
+.quiz-btn:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
