@@ -37,13 +37,20 @@ main {
     align-items: center;
     justify-content: center;
     padding-top: 50px;
-    width: 67%;
 }
 
+/* First page text */
 .text {
     text-align: center;
-    width: 62%;
+    width: 46%;
     margin: 10px;
+}
+
+/* First page title */
+h1 {
+    text-align: center;
+    font-size: 36px;
+    width: 62%;
 }
 
 /* style applies to all buttons */
@@ -52,9 +59,34 @@ main {
     background-color: var(--primary-color);
     border-radius: 5px;
     padding: 5px 10px;
+    margin-bottom: 10px;
 }
 
 .quiz-btn:hover {
     background-color: var(--secondary-color);
     border-color: var(--secondary-color);
+}
+
+/* question style */
+.questions {
+    text-align: left;
+    font-size: 36px;
+    width: 85%;
+}
+
+/* answer style */
+.answers {
+    display: inline-block;
+    width: 30%;
+    margin: 10px;
+}
+
+.answers-box {
+    width: 90%;
+}
+
+/* end quiz page */
+.end-title {
+font-size: 36px;
+width: auto;
 }
