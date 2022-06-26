@@ -40,7 +40,7 @@ main {
     width: 67%;
 }
 
-main section p {
+.text {
     text-align: center;
     width: 62%;
     margin: 10px;
