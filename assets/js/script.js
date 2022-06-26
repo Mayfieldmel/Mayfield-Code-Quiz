@@ -42,52 +42,77 @@ function countdownEl() {
     var countdown = setInterval(count, 1000);
     }
 
+questionArr = [
+    "Commonly used data types do NOT include:",
+    "The condition in an if/else statement is enclosed with ________________.",
+    "Arrays in JavaScript can be used to store ______________.",
+    "String values must be enclosed within ____________ when being assigned to variables.",
+    "A very useful tool used during development and debugging for printing content to the debugger is:"
+]
+    
+    
+function nextQuestion() {
+    for (var i = 0; i < 5; i++);
+ }
+ nextQuestion(questionArr);
+ console.log(questionArr[i]);
 
-
-
-// var startQuiz = start timer & first quiz question
+// start quiz = start timer & question loop
 function startQuiz() {
     console.log("start timer");
     // Start timer countdown
     countdownEl();
 
-// display first question
-    // Question text
-    pageTitleEl.textContent = "Commonly used data types do NOT include: ";
-    // Question formatting
-    pageTitleEl.className = "questions";
-
-// display first question answer choices
-    // empty pageContentEl
-    pageContentEl.textContent = "";
-    pageContentEl.className = "answers-box"
-    // create ordered answer choice list
-    var answerChoices = document.createElement("ol");
-    pageContentEl.appendChild(answerChoices);
-    answerChoices.className = "answers";
-        // create list items
-        var answer1 = document.createElement("li");
-            answer1.className = "quiz-btn";
-            answer1.textContent = "1. strings";
-            answerChoices.appendChild(answer1);
-        var answer2 = document.createElement("li");
-            answer2.className = "quiz-btn";
-            answer2.textContent = "2. booleans";
-            answerChoices.appendChild(answer2);
-        var answer3 = document.createElement("li");
-            answer3.className = "quiz-btn";
-            answer3.textContent = "3. alerts";
-            answerChoices.appendChild(answer3);
-        var answer4 = document.createElement("li");
-            answer4.className = "quiz-btn";
-            answer4.textContent = "4. numbers";
-            answerChoices.appendChild(answer4);
-        
     // remove start button
-    startBtn.remove();
-}
+    // startBtn.remove();
+ 
+    // generate question
 
+
+        pageTitleEl.textContent = nextQuestion;
+        
+}
+// // display first question
+//     // Question text
+//     pageTitleEl.textContent = "Commonly used data types do NOT include: ";
+//     // Question formatting
+//     pageTitleEl.className = "questions";
+
+// // display first question answer choices
+//     // empty pageContentEl
+//     pageContentEl.textContent = "";
+//     pageContentEl.className = "answers-box"
+//     // create ordered answer choice list
+//     var answerChoices = document.createElement("ol");
+//     pageContentEl.appendChild(answerChoices);
+//     answerChoices.className = "answers";
+//         // create list items
+//         var answer1 = document.createElement("li");
+//             answer1.className = "quiz-btn";
+//             answer1.textContent = "1. strings";
+//             answerChoices.appendChild(answer1);
+//         var answer2 = document.createElement("li");
+//             answer2.className = "quiz-btn";
+//             answer2.textContent = "2. booleans";
+//             answerChoices.appendChild(answer2);
+//         var answer3 = document.createElement("li");
+//             answer3.className = "quiz-btn";
+//             answer3.textContent = "3. alerts";
+//             answerChoices.appendChild(answer3);
+//         var answer4 = document.createElement("li");
+//             answer4.className = "quiz-btn";
+//             answer4.textContent = "4. numbers";
+//             answerChoices.appendChild(answer4);
+   
+
+// question1 = {
+//     question: "Commonly used data types do NOT include:",
+//     answers: 
+// }
 
 
 // connect start button to timer
 startBtn.addEventListener("click", startQuiz);
+
+// connect question change to answer click
+// pageContentEl.addEventListener("click", nextQuestion);
