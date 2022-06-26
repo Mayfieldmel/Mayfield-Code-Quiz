@@ -9,22 +9,19 @@
   </head>
   <body>
     <header>
-      <p class="view-score" href="#">View high scores</p>
-      <p class="timer">Time: 0</p>
+      <p class="view-score" id="score-page">View high scores</p>
+      <p id="timer">Time: 0</p>
     </header>
-
+    <!-- main section will change dynamically with js -->
     <main>
       <section class="main-section">
-        <h1 class="question">Coding Quiz Challenge</h1>
-        <p>
+        <h1 id="title">Coding Quiz Challenge</h1>
+        <div class="text" id="main-content">
           Try to answer the following code-related questions within the time
           limit. Keep in mind that incorrect answers will penalize your
           score/time by ten seconds!
-        </p>
-
-        <div>
-          <button type="button" class="quiz-btn">Start Quiz</button>
         </div>
+        <button type="button" class="quiz-btn" id="start-btn">Start Quiz</button>
       </section>
     </main>
 
