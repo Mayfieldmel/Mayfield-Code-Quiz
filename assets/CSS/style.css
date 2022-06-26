@@ -86,11 +86,33 @@ h1 {
 }
 
 /* end quiz page */
+.end-page{
+    width: 55%;
+    margin: 20px;
+}
+
 .end-title {
-font-size: 36px;
-width: auto;
+    text-align: left;
+    font-size: 36px;
+    padding: 20px;
+ 
+}
+
+.end-text {
+    padding: 0 20px;
 }
 
 .score-form {
     display: flex;
+    justify-content: space-between;
+    width: 40%;
+    padding: 20px;
+    position: absolute;
+    right: 470px;
+
+}
+
+.input-box {
+    width: 60%;
+    height: 30px;
 }

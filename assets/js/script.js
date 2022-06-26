@@ -4,10 +4,11 @@ var pageContentEl =  document.querySelector("#main-content");
 var pageTitleEl = document.querySelector("#title");
 var counterEl = document.querySelector("#timer");
 var viewScoreEl = document.querySelector("#score-page");
+var mainEl = document.querySelector("#main");
 console.dir(startBtn)
 
   // Test Timer
-  var counter = 6;
+  var counter = 75;
 
 
 // End of Quiz Page
@@ -15,6 +16,8 @@ var endQuiz = function() {
     pageTitleEl.textContent = "All Done!";
     pageTitleEl.className = "end-title";
     pageContentEl.textContent = ("Your Final Score is ");
+    pageContentEl.className = "end-text";
+    mainEl.className = "end-page"
     var highScoreForm = document.createElement("form");
         highScoreForm.className = "score-form";
         pageContentEl.appendChild(highScoreForm);
@@ -22,6 +25,7 @@ var endQuiz = function() {
         formText.innerHTML = "Enter initials: ";
         highScoreForm.appendChild(formText);
     var formInput = document.createElement("input");
+        formInput.className = "input-box"
         highScoreForm.appendChild(formInput);
     var formBtn = document.createElement("button");
         formBtn.type = "Submit";
