@@ -90,3 +90,7 @@ h1 {
 font-size: 36px;
 width: auto;
 }
+
+.score-form {
+    display: flex;
+}
