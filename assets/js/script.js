@@ -6,30 +6,9 @@ var counterEl = document.querySelector("#timer");
 var viewScoreEl = document.querySelector("#score-page");
 var mainEl = document.querySelector("#main");
 
-  // Test Timer
-  var counter = 76;
+var currentQuestionIndex = 0;
 
-  // Test Timer Countdown
-var count = function() {
-    if (counter > 0) {
-        counter--;
-        counterEl.textContent = ("Timer: " + counter);
-    }
-    else {
-        clearInterval(countdownEl);
-        counter = 0;
-        counterEl.textContent = ("Timer: " + counter);
-        endQuiz ();
-    }
-}
-// Counter Countdown Interval
-function countdownEl() {
-    var countdown = setInterval(count, 1000);
-    }
-
-    var currentQuestionIndex = 0;
-
-  questionArr = [
+questionArr = [
     {
     question: "Commonly used data types do NOT include:",
     answers: ["1. strings", "2. booleans", "3. alerts", "4. numbers"],
@@ -56,77 +35,49 @@ function countdownEl() {
     correctAnswer: "4. console log" // i = 3
     }
 ]
-// questionArr = [
-//     "Commonly used data types do NOT include:",
-//     "The condition in an if/else statement is enclosed with ________________.",
-//     "Arrays in JavaScript can be used to store ______________.",
-//     "String values must be enclosed within ____________ when being assigned to variables.",
-//     "A very useful tool used during development and debugging for printing content to the debugger is:"
-// ]
-// answersObj = {
-//     one: ["1. strings", "2. booleans", "3. alerts", "4. numbers"],
-//     two: ["1. quotes", "2. curly brackets", "3. parentheses", "4. square brackets"],
-//     three: ["1. numbers and strings", "2. other arrays", "3. booleans", "4. all of the above"],
-//     four: ["1. commas", "2. curly brackets", "3. quotes", "4. parentheses"],
-//     five: ["1. JavaScript", "2. terminal/bash", "3. for loops", "4. console log"],
-// }
 
-// End of Quiz Page
-var endQuiz = function() {
-    // clearInterval(countdownEl);
-    pageTitleEl.textContent = "All Done!";
-    pageTitleEl.className = "end-title";
-    pageContentEl.textContent = ("Your Final Score is " + finalScore);
-    pageContentEl.className = "end-text";
-    mainEl.className = "end-page"
-    var highScoreForm = document.createElement("form");
-        highScoreForm.className = "score-form";
-        pageContentEl.appendChild(highScoreForm);
-    var formText = document.createElement("div");
-        formText.innerHTML = "Enter initials: ";
-        highScoreForm.appendChild(formText);
-    var formInput = document.createElement("input");
-        formInput.className = "input-box"
-        highScoreForm.appendChild(formInput);
-    var formBtn = document.createElement("button");
-        formBtn.type = "Submit";
-        formBtn.innerHTML = "Submit";
-        formBtn.className = "quiz-btn";
-        highScoreForm.appendChild(formBtn);
+  // Test Timer
+  var counter = 10;
 
-// timer value when last button is clicked 
-var timeRemaining = counter;
-
-// Test Score
-var finalScore = timeRemaining;
-console.log(finalScore)
-    //  + finalScore)
+  // Test Timer Countdown
+var count = function() {
+    if (counter > 0) {
+        counter--;
+        counterEl.textContent = ("Timer: " + counter);
+    }
+    else {
+        counter = 0;
+        counterEl.textContent = ("Timer: " + counter);
+        endQuiz();
+        return;
+    }
 };
 
+// Counter Countdown Interval
+var countdownEl = setInterval(count, 1000);
+function countdown() {
+    countdownEl
+    };
 
 
-
-
-
-// generate questions
+// display & loop through questions on click
 var generateQuestion = function() { 
-    console.log(currentQuestionIndex + currentQuestion);
+// generate questions
     var currentQuestion = questionArr[currentQuestionIndex];
     if (currentQuestionIndex < questionArr.length) {
         // Question text
         pageTitleEl.textContent = currentQuestion.question;
-        // Question formatting
         pageTitleEl.className = "questions";
-        // generate answer choices
-//     empty pageContentEl
+    console.log(currentQuestion)
+ // generate answer choices
+    //  empty pageContentEl
     pageContentEl.textContent = "";
     pageContentEl.className = "answers-box"
+
     // create ordered answer choice list
     var answerChoices = document.createElement("ol");
     pageContentEl.appendChild(answerChoices);
     answerChoices.className = "answers";
-    
-
 
         // create list items
         var answerChoice1 = document.createElement("li");
@@ -145,22 +96,17 @@ var generateQuestion = function() {
             answerChoice4.textContent = currentQuestion.answers[3];
             answerChoice4.className = "quiz-btn";
             answerChoices.appendChild(answerChoice4);
+        
         currentQuestionIndex++;
+
+        var timeRemaining = countdown;
+        console.log(timeRemaining)
+        // connect question change to answer click
+        answerChoices.addEventListener("click", generateQuestion);
     } else {
         endQuiz();
-
-        };    
-    
-            //  answer1.textContent = "1. strings";
-
-           
-            // answer2.textContent = "2. booleans";
-
-            
-            // answer3.textContent = "3. alerts";
-
-            
-            // answer4.textContent = "4. numbers";
+        clearInterval(countdown);
+    }    
 };
 
 
@@ -168,20 +114,44 @@ var generateQuestion = function() {
 function startQuiz() {
     console.log("start timer");
     // Start timer countdown
-    countdownEl();
-
-    // remove start button
-    startBtn.remove();
-
+    countdown();
     // display first question 
     generateQuestion();
-    
-    // connect question change to answer click
-    pageContentEl.addEventListener("click", generateQuestion);
+     // remove start button
+    startBtn.remove();
 };
            
-
-
+// End of Quiz Page
+function endQuiz() {
+    // stop timer
+   clearInterval(countdownEl);
+    
+    // page title
+    pageTitleEl.textContent = "All Done!";
+    pageTitleEl.className = "end-title";
+    // Test score
+    var finalScore = counter;
+        console.log(finalScore)
+        pageContentEl.textContent = ("Your Final Score is " + finalScore);
+        pageContentEl.className = "end-text";
+    // high score form
+    var highScoreForm = document.createElement("form");
+        highScoreForm.className = "score-form";
+        pageContentEl.appendChild(highScoreForm);
+    var formText = document.createElement("div");
+        formText.innerHTML = "Enter initials: ";
+        highScoreForm.appendChild(formText);
+    var formInput = document.createElement("input");
+        formInput.className = "input-box"
+        highScoreForm.appendChild(formInput);
+    var formBtn = document.createElement("button");
+        formBtn.type = "Submit";
+        formBtn.innerHTML = "Submit";
+        formBtn.className = "quiz-btn";
+        highScoreForm.appendChild(formBtn);
+    // main tag formatting
+        mainEl.className = "end-page"
+};
 
 
     
