@@ -5,19 +5,136 @@ var pageTitleEl = document.querySelector("#title");
 var counterEl = document.querySelector("#timer");
 var viewScoreEl = document.querySelector("#score-page");
 var mainEl = document.querySelector("#main");
-console.dir(startBtn)
+
+var currentQuestionIndex = 0;
+
+questionArr = [
+    {
+    question: "Commonly used data types do NOT include:",
+    answers: ["1. strings", "2. booleans", "3. alerts", "4. numbers"],
+    correctAnswer: "3. alerts" // i = 2
+    },
+    {
+    question: "The condition in an if/else statement is enclosed with ________________.",
+    answers: ["1. quotes", "2. curly brackets", "3. parentheses", "4. square brackets"],
+    correctAnswer: "3. parentheses" // i = 2
+    },
+    {
+    question: "Arrays in JavaScript can be used to store ______________.",
+    answers: ["1. numbers and strings", "2. other arrays", "3. booleans", "4. all of the above"],
+    correctAnswer: "4. all of the above" // i = 3
+    },
+    {
+    question: "String values must be enclosed within ____________ when being assigned to variables.",
+    answers: ["1. commas", "2. curly brackets", "3. quotes", "4. parentheses"],
+    correctAnswer: "3. quotes" // i = 2
+    },
+    {
+    question:  "A very useful tool used during development and debugging for printing content to the debugger is:",
+    answers: ["1. JavaScript", "2. terminal/bash", "3. for loops", "4. console log"],
+    correctAnswer: "4. console log" // i = 3
+    }
+]
 
   // Test Timer
-  var counter = 75;
+  var counter = 10;
+
+  // Test Timer Countdown
+var count = function() {
+    if (counter > 0) {
+        counter--;
+        counterEl.textContent = ("Timer: " + counter);
+    }
+    else {
+        counter = 0;
+        counterEl.textContent = ("Timer: " + counter);
+        endQuiz();
+        return;
+    }
+};
+
+// Counter Countdown Interval
+var countdownEl = setInterval(count, 1000);
+function countdown() {
+    countdownEl
+    };
 
 
+// display & loop through questions on click
+var generateQuestion = function() { 
+// generate questions
+    var currentQuestion = questionArr[currentQuestionIndex];
+    if (currentQuestionIndex < questionArr.length) {
+        // Question text
+        pageTitleEl.textContent = currentQuestion.question;
+        pageTitleEl.className = "questions";
+    console.log(currentQuestion)
+ // generate answer choices
+    //  empty pageContentEl
+    pageContentEl.textContent = "";
+    pageContentEl.className = "answers-box"
+
+    // create ordered answer choice list
+    var answerChoices = document.createElement("ol");
+    pageContentEl.appendChild(answerChoices);
+    answerChoices.className = "answers";
+
+        // create list items
+        var answerChoice1 = document.createElement("li");
+            answerChoice1.textContent = currentQuestion.answers[0];
+            answerChoice1.className = "quiz-btn";
+            answerChoices.appendChild(answerChoice1);
+        var answerChoice2 = document.createElement("li");
+            answerChoice2.textContent = currentQuestion.answers[1];
+            answerChoice2.className = "quiz-btn";
+            answerChoices.appendChild(answerChoice2);
+        var answerChoice3 = document.createElement("li");
+            answerChoice3.textContent = currentQuestion.answers[2];
+            answerChoice3.className = "quiz-btn";
+            answerChoices.appendChild(answerChoice3);
+        var answerChoice4 = document.createElement("li");
+            answerChoice4.textContent = currentQuestion.answers[3];
+            answerChoice4.className = "quiz-btn";
+            answerChoices.appendChild(answerChoice4);
+        
+        currentQuestionIndex++;
+
+        var timeRemaining = countdown;
+        console.log(timeRemaining)
+        // connect question change to answer click
+        answerChoices.addEventListener("click", generateQuestion);
+    } else {
+        endQuiz();
+        clearInterval(countdown);
+    }    
+};
+
+
+// start quiz = start timer & question loop
+function startQuiz() {
+    console.log("start timer");
+    // Start timer countdown
+    countdown();
+    // display first question 
+    generateQuestion();
+     // remove start button
+    startBtn.remove();
+};
+           
 // End of Quiz Page
-var endQuiz = function() {
+function endQuiz() {
+    // stop timer
+   clearInterval(countdownEl);
+    
+    // page title
     pageTitleEl.textContent = "All Done!";
     pageTitleEl.className = "end-title";
-    pageContentEl.textContent = ("Your Final Score is ");
-    pageContentEl.className = "end-text";
-    mainEl.className = "end-page"
+    // Test score
+    var finalScore = counter;
+        console.log(finalScore)
+        pageContentEl.textContent = ("Your Final Score is " + finalScore);
+        pageContentEl.className = "end-text";
+    // high score form
     var highScoreForm = document.createElement("form");
         highScoreForm.className = "score-form";
         pageContentEl.appendChild(highScoreForm);
@@ -32,91 +149,11 @@ var endQuiz = function() {
         formBtn.innerHTML = "Submit";
         formBtn.className = "quiz-btn";
         highScoreForm.appendChild(formBtn);
-
-    
-    //  + finalScore)
+    // main tag formatting
+        mainEl.className = "end-page"
 };
-// timer value when last button is clicked [help]
-// var timeRemaining = startTimer.value;
-// Test Score
-// var finalScore = count;
 
 
-// Test Timer Countdown
-var count = function() {
-    if (counter > 0) {
-        counter--;
-        counterEl.textContent = ("Timer: " + counter);
-    }
-    else {
-        clearInterval(countdownEl);
-        counter = 0;
-        counterEl.textContent = ("Timer: " + counter);
-        endQuiz ();
-    }
-}
-// Counter Countdown Interval
-function countdownEl() {
-    var countdown = setInterval(count, 1000);
-    }
     
-// start quiz = start timer & question loop
-function startQuiz() {
-    console.log("start timer");
-    // Start timer countdown
-    countdownEl();
-
-    // remove start button
-    startBtn.remove();
-
-// // display first question
-    // Question text
-    pageTitleEl.textContent = "Commonly used data types do NOT include: ";
-    // Question formatting
-    pageTitleEl.className = "questions";
-
-// display first question answer choices
-    // empty pageContentEl
-    pageContentEl.textContent = "";
-    pageContentEl.className = "answers-box"
-    // create ordered answer choice list
-    var answerChoices = document.createElement("ol");
-    pageContentEl.appendChild(answerChoices);
-    answerChoices.className = "answers";
-        // create list items
-        var answer1 = document.createElement("li");
-            answer1.className = "quiz-btn";
-            answer1.textContent = "1. strings";
-            answerChoices.appendChild(answer1);
-        var answer2 = document.createElement("li");
-            answer2.className = "quiz-btn";
-            answer2.textContent = "2. booleans";
-            answerChoices.appendChild(answer2);
-        var answer3 = document.createElement("li");
-            answer3.className = "quiz-btn";
-            answer3.textContent = "3. alerts";
-            answerChoices.appendChild(answer3);
-        var answer4 = document.createElement("li");
-            answer4.className = "quiz-btn";
-            answer4.textContent = "4. numbers";
-            answerChoices.appendChild(answer4);
-   
-
-}
-
-function nextQuestion() {
-    console.log("next question");
-}
 // connect start button to timer
 startBtn.addEventListener("click", startQuiz);
-
-// connect question change to answer click
-pageContentEl.addEventListener("click", nextQuestion);
-
-// questionArr = [
-//     "Commonly used data types do NOT include:",
-//     "The condition in an if/else statement is enclosed with ________________.",
-//     "Arrays in JavaScript can be used to store ______________.",
-//     "String values must be enclosed within ____________ when being assigned to variables.",
-//     "A very useful tool used during development and debugging for printing content to the debugger is:"
-// ]
