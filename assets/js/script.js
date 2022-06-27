@@ -65,12 +65,12 @@ var generateQuestion = function() {
 // generate questions
     var currentQuestion = questionArr[currentQuestionIndex];
     if (currentQuestionIndex < questionArr.length) {
-        // Question text
-        pageTitleEl.textContent = currentQuestion.question;
-        pageTitleEl.className = "questions";
+    // Question text
+    pageTitleEl.textContent = currentQuestion.question;
+    pageTitleEl.className = "questions";
     console.log(currentQuestion)
- // generate answer choices
-    //  empty pageContentEl
+    // generate answer choices
+        //  empty pageContentEl
     pageContentEl.textContent = "";
     pageContentEl.className = "answers-box"
 
@@ -99,13 +99,11 @@ var generateQuestion = function() {
         
         currentQuestionIndex++;
 
-        var timeRemaining = countdown;
-        console.log(timeRemaining)
         // connect question change to answer click
         answerChoices.addEventListener("click", generateQuestion);
+        
     } else {
         endQuiz();
-        clearInterval(countdown);
     }    
 };
 

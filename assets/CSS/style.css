@@ -117,3 +117,9 @@ h1 {
     height: 30px;
     padding: 5px;
 }
+
+.result {
+    font-style: italic;
+    border-top: 2px solid lightgray;
+    color: lightgrey;
+}
