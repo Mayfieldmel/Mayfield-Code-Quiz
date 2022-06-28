@@ -8,7 +8,7 @@ var mainEl = document.querySelector("#main");
 
 var currentQuestionIndex = 0;
 
-questionArr = [
+var questionArr = [
     {
     question: "Commonly used data types do NOT include:",
     answers: ["1. strings", "2. booleans", "3. alerts", "4. numbers"],
@@ -37,37 +37,29 @@ questionArr = [
 ]
 
   // Test Timer
-  var counter = 20;
+var counter = 33;
+var countdownInterval;
 
 // start quiz = start timer & question loop
-function startQuiz() {
-     // remove start button
-    startBtn.remove();
-    // start timer
-    console.log("start timer");
-    // Counter Countdown Interval
-    var countdownEl = setInterval(count, 1000);
-        // Test Timer Countdown
-        function count() {
-            if (counter > 0) {
-                counter--;
-                counterEl.textContent = ("Timer: " + counter);
-            }else{
-                clearInterval (countdownEl);
-                counter = 0;
-                counterEl.textContent = ("Timer: " + counter);
-                endQuiz();
-                return;
-            }
-        };
-     // display first question 
-   generateQuestion();
+function count() {
+    if (counter > 0) {
+        counter--;
+        counterEl.textContent = ("Timer: " + counter);
+    }else{
+        clearInterval (countdownInterval);
+        counter = 0;
+        counterEl.textContent = ("Timer: " + counter);
+        endQuiz();
+        return;
+    }
+};
+
 
 // display & loop through questions on click
-    function generateQuestion() { 
-    // generate questions
-        var currentQuestion = questionArr[currentQuestionIndex];
-        if (currentQuestionIndex < questionArr.length) {
+function generateQuestion() { 
+// generate questions
+    var currentQuestion = questionArr[currentQuestionIndex];
+    if (currentQuestionIndex < questionArr.length) {
         // Question text
         pageTitleEl.textContent = currentQuestion.question;
         pageTitleEl.className = "questions";
@@ -82,57 +74,66 @@ function startQuiz() {
         answerChoices.className = "answers";
 
             // create list items
-            var answerChoice1 = document.createElement("li");
-                answerChoice1.textContent = currentQuestion.answers[0];
-                answerChoice1.className = "quiz-btn";
-                answerChoices.appendChild(answerChoice1);
-            var answerChoice2 = document.createElement("li");
-                answerChoice2.textContent = currentQuestion.answers[1];
-                answerChoice2.className = "quiz-btn";
-                answerChoices.appendChild(answerChoice2);
-            var answerChoice3 = document.createElement("li");
-                answerChoice3.textContent = currentQuestion.answers[2];
-                answerChoice3.className = "quiz-btn";
-                answerChoices.appendChild(answerChoice3);
-            var answerChoice4 = document.createElement("li");
-                answerChoice4.textContent = currentQuestion.answers[3];
-                answerChoice4.className = "quiz-btn";
-                answerChoices.appendChild(answerChoice4);
-            
-            currentQuestionIndex++;
-            
-
-            // connect question change to answer click
-            answerChoices.addEventListener("click", generateQuestion);
-            
-            var previousQuestionIndex = currentQuestionIndex-2;
-            var previousQuestion = questionArr[previousQuestionIndex];
-            var questionAnswer = previousQuestion.correctAnswer;
-            
-
-             if (event.target.textContent == questionAnswer) {
-                console.log("correct");
-                var result = document.createElement("p");
-                    result.textContent = "Correct!";
-                    result.className =  "results";
-                    pageContentEl.appendChild(result);
-            } else { 
-                console.log("wrong");
-                var penalty = function() {counter - 10};
-                var result = document.createElement("p");
-                    result.textContent = "Wrong!";
-                    result.className =  "results";
-                    pageContentEl.appendChild(result);
-            }
-                      
-        } else {
-            clearInterval(countdownEl);
-            endQuiz();
-        }    
-    }
-
-  
+        var answerChoice1 = document.createElement("li");
+            answerChoice1.textContent = currentQuestion.answers[0];
+            answerChoice1.className = "quiz-btn";
+            answerChoices.appendChild(answerChoice1);
+        var answerChoice2 = document.createElement("li");
+            answerChoice2.textContent = currentQuestion.answers[1];
+            answerChoice2.className = "quiz-btn";
+            answerChoices.appendChild(answerChoice2);
+        var answerChoice3 = document.createElement("li");
+            answerChoice3.textContent = currentQuestion.answers[2];
+            answerChoice3.className = "quiz-btn";
+            answerChoices.appendChild(answerChoice3);
+        var answerChoice4 = document.createElement("li");
+            answerChoice4.textContent = currentQuestion.answers[3];
+            answerChoice4.className = "quiz-btn";
+            answerChoices.appendChild(answerChoice4);
         
+        currentQuestionIndex++;
+        
+
+        // connect question change to answer click
+        answerChoices.addEventListener("click", generateQuestion);
+        
+        var previousQuestionIndex = currentQuestionIndex-2;
+        var previousQuestion = questionArr[previousQuestionIndex];
+        var questionAnswer = previousQuestion.correctAnswer;
+
+    //  match answer choice to correct answer
+        if (event.target.textContent == questionAnswer) {
+            console.log("correct");
+            var result = document.createElement("p");
+                result.textContent = "Correct!";
+                result.className =  "results";
+                pageContentEl.appendChild(result);
+        } else { 
+            counter = counter - 10;
+
+            var result = document.createElement("p");
+                result.textContent = "Wrong!";
+                result.className =  "results";
+                pageContentEl.appendChild(result);
+        }
+                  
+    } else {
+        clearInterval(countdownInterval);
+        endQuiz();
+    }    
+}   
+
+function startQuiz() {
+     // remove start button
+    startBtn.remove();
+    // start timer
+    console.log("start timer");
+    // Counter Countdown Interval
+    countdownInterval = setInterval(count, 1000);
+        // Test Timer Countdown
+     // display first question 
+   generateQuestion();
+
     
 };
            
