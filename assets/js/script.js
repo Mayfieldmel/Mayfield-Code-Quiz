@@ -8,7 +8,7 @@ var mainEl = document.querySelector("#main");
 
 var currentQuestionIndex = 0;
 
-questionArr = [
+var questionArr = [
     {
     question: "Commonly used data types do NOT include:",
     answers: ["1. strings", "2. booleans", "3. alerts", "4. numbers"],
@@ -37,55 +37,43 @@ questionArr = [
 ]
 
   // Test Timer
-  var counter = 20;
+var counter = 33;
+var countdownInterval;
+
 // start quiz = start timer & question loop
-function startQuiz() {
-     // remove start button
-    startBtn.remove();
+function count() {
+    if (counter > 0) {
+        counter--;
+        counterEl.textContent = ("Timer: " + counter);
+    }else{
+        clearInterval (countdownInterval);
+        counter = 0;
+        counterEl.textContent = ("Timer: " + counter);
+        endQuiz();
+        return;
+    }
+};
 
-    // start timer
-    console.log("start timer");
-    // Counter Countdown Interval
-    var countdownEl = setInterval(count, 1000);
-
-    // Test Timer Countdown
-    function count() {
-        if (counter > 0) {
-            counter--;
-            counterEl.textContent = ("Timer: " + counter);
-        }else{
-            clearInterval (countdownEl);
-            counter = 0;
-            counterEl.textContent = ("Timer: " + counter);
-            endQuiz();
-            return;
-        }
-    };
-
- // display first question 
- generateQuestion();
 
 // display & loop through questions on click
 function generateQuestion() { 
-
 // generate questions
     var currentQuestion = questionArr[currentQuestionIndex];
     if (currentQuestionIndex < questionArr.length) {
-    // Question text
-    pageTitleEl.textContent = currentQuestion.question;
-    pageTitleEl.className = "questions";
-    console.log(currentQuestion)
+        // Question text
+        pageTitleEl.textContent = currentQuestion.question;
+        pageTitleEl.className = "questions";
     // generate answer choices
         //  empty pageContentEl
-    pageContentEl.textContent = "";
-    pageContentEl.className = "answers-box"
+        pageContentEl.textContent = "";
+        pageContentEl.className = "answers-box"
 
-    // create ordered answer choice list
-    var answerChoices = document.createElement("ol");
-    pageContentEl.appendChild(answerChoices);
-    answerChoices.className = "answers";
+        // create ordered answer choice list
+        var answerChoices = document.createElement("ol");
+        pageContentEl.appendChild(answerChoices);
+        answerChoices.className = "answers";
 
-        // create list items
+            // create list items
         var answerChoice1 = document.createElement("li");
             answerChoice1.textContent = currentQuestion.answers[0];
             answerChoice1.className = "quiz-btn";
@@ -104,19 +92,49 @@ function generateQuestion() {
             answerChoices.appendChild(answerChoice4);
         
         currentQuestionIndex++;
+        
 
         // connect question change to answer click
         answerChoices.addEventListener("click", generateQuestion);
         
+        var previousQuestionIndex = currentQuestionIndex-2;
+        var previousQuestion = questionArr[previousQuestionIndex];
+        var questionAnswer = previousQuestion.correctAnswer;
+
+    //  match answer choice to correct answer
+        if (event.target.textContent == questionAnswer) {
+            console.log("correct");
+            var result = document.createElement("p");
+                result.textContent = "Correct!";
+                result.className =  "results";
+                pageContentEl.appendChild(result);
+        } else { 
+            counter = counter - 10;
+
+            var result = document.createElement("p");
+                result.textContent = "Wrong!";
+                result.className =  "results";
+                pageContentEl.appendChild(result);
+        }
+                  
     } else {
-        clearInterval(countdownEl);
+        clearInterval(countdownInterval);
         endQuiz();
     }    
+}   
 
-};
+function startQuiz() {
+     // remove start button
+    startBtn.remove();
+    // start timer
+    console.log("start timer");
+    // Counter Countdown Interval
+    countdownInterval = setInterval(count, 1000);
+        // Test Timer Countdown
+     // display first question 
+   generateQuestion();
 
-
-
+    
 };
            
 // End of Quiz Page
@@ -126,7 +144,7 @@ function endQuiz() {
     pageTitleEl.className = "end-title";
     // Test score
     var finalScore = counter;
-        console.log(finalScore)
+        console.log("final score: " + finalScore);
         pageContentEl.textContent = ("Your Final Score is " + finalScore);
         pageContentEl.className = "end-text";
     // high score form
