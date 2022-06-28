@@ -118,8 +118,9 @@ h1 {
     padding: 5px;
 }
 
-.result {
+.results {
     font-style: italic;
     border-top: 2px solid lightgray;
     color: lightgrey;
+    font-size: 18px;
 }

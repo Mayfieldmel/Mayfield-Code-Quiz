@@ -38,85 +38,102 @@ questionArr = [
 
   // Test Timer
   var counter = 20;
+
 // start quiz = start timer & question loop
 function startQuiz() {
      // remove start button
     startBtn.remove();
-
     // start timer
     console.log("start timer");
     // Counter Countdown Interval
     var countdownEl = setInterval(count, 1000);
-
-    // Test Timer Countdown
-    function count() {
-        if (counter > 0) {
-            counter--;
-            counterEl.textContent = ("Timer: " + counter);
-        }else{
-            clearInterval (countdownEl);
-            counter = 0;
-            counterEl.textContent = ("Timer: " + counter);
-            endQuiz();
-            return;
-        }
-    };
-
- // display first question 
- generateQuestion();
+        // Test Timer Countdown
+        function count() {
+            if (counter > 0) {
+                counter--;
+                counterEl.textContent = ("Timer: " + counter);
+            }else{
+                clearInterval (countdownEl);
+                counter = 0;
+                counterEl.textContent = ("Timer: " + counter);
+                endQuiz();
+                return;
+            }
+        };
+     // display first question 
+   generateQuestion();
 
 // display & loop through questions on click
-function generateQuestion() { 
-
-// generate questions
-    var currentQuestion = questionArr[currentQuestionIndex];
-    if (currentQuestionIndex < questionArr.length) {
-    // Question text
-    pageTitleEl.textContent = currentQuestion.question;
-    pageTitleEl.className = "questions";
-    console.log(currentQuestion)
+    function generateQuestion() { 
+    // generate questions
+        var currentQuestion = questionArr[currentQuestionIndex];
+        if (currentQuestionIndex < questionArr.length) {
+        // Question text
+        pageTitleEl.textContent = currentQuestion.question;
+        pageTitleEl.className = "questions";
     // generate answer choices
         //  empty pageContentEl
-    pageContentEl.textContent = "";
-    pageContentEl.className = "answers-box"
+        pageContentEl.textContent = "";
+        pageContentEl.className = "answers-box"
 
-    // create ordered answer choice list
-    var answerChoices = document.createElement("ol");
-    pageContentEl.appendChild(answerChoices);
-    answerChoices.className = "answers";
+        // create ordered answer choice list
+        var answerChoices = document.createElement("ol");
+        pageContentEl.appendChild(answerChoices);
+        answerChoices.className = "answers";
 
-        // create list items
-        var answerChoice1 = document.createElement("li");
-            answerChoice1.textContent = currentQuestion.answers[0];
-            answerChoice1.className = "quiz-btn";
-            answerChoices.appendChild(answerChoice1);
-        var answerChoice2 = document.createElement("li");
-            answerChoice2.textContent = currentQuestion.answers[1];
-            answerChoice2.className = "quiz-btn";
-            answerChoices.appendChild(answerChoice2);
-        var answerChoice3 = document.createElement("li");
-            answerChoice3.textContent = currentQuestion.answers[2];
-            answerChoice3.className = "quiz-btn";
-            answerChoices.appendChild(answerChoice3);
-        var answerChoice4 = document.createElement("li");
-            answerChoice4.textContent = currentQuestion.answers[3];
-            answerChoice4.className = "quiz-btn";
-            answerChoices.appendChild(answerChoice4);
+            // create list items
+            var answerChoice1 = document.createElement("li");
+                answerChoice1.textContent = currentQuestion.answers[0];
+                answerChoice1.className = "quiz-btn";
+                answerChoices.appendChild(answerChoice1);
+            var answerChoice2 = document.createElement("li");
+                answerChoice2.textContent = currentQuestion.answers[1];
+                answerChoice2.className = "quiz-btn";
+                answerChoices.appendChild(answerChoice2);
+            var answerChoice3 = document.createElement("li");
+                answerChoice3.textContent = currentQuestion.answers[2];
+                answerChoice3.className = "quiz-btn";
+                answerChoices.appendChild(answerChoice3);
+            var answerChoice4 = document.createElement("li");
+                answerChoice4.textContent = currentQuestion.answers[3];
+                answerChoice4.className = "quiz-btn";
+                answerChoices.appendChild(answerChoice4);
+            
+            currentQuestionIndex++;
+            
+
+            // connect question change to answer click
+            answerChoices.addEventListener("click", generateQuestion);
+            
+            var previousQuestionIndex = currentQuestionIndex-2;
+            var previousQuestion = questionArr[previousQuestionIndex];
+            var questionAnswer = previousQuestion.correctAnswer;
+            
+
+             if (event.target.textContent == questionAnswer) {
+                console.log("correct");
+                var result = document.createElement("p");
+                    result.textContent = "Correct!";
+                    result.className =  "results";
+                    pageContentEl.appendChild(result);
+            } else { 
+                console.log("wrong");
+                var penalty = function() {counter - 10};
+                var result = document.createElement("p");
+                    result.textContent = "Wrong!";
+                    result.className =  "results";
+                    pageContentEl.appendChild(result);
+            }
+                      
+        } else {
+            clearInterval(countdownEl);
+            endQuiz();
+        }    
+    }
+
+  
         
-        currentQuestionIndex++;
-
-        // connect question change to answer click
-        answerChoices.addEventListener("click", generateQuestion);
-        
-    } else {
-        clearInterval(countdownEl);
-        endQuiz();
-    }    
-
-};
-
-
-
+    
 };
            
 // End of Quiz Page
@@ -126,7 +143,7 @@ function endQuiz() {
     pageTitleEl.className = "end-title";
     // Test score
     var finalScore = counter;
-        console.log(finalScore)
+        console.log("final score: " + finalScore);
         pageContentEl.textContent = ("Your Final Score is " + finalScore);
         pageContentEl.className = "end-text";
     // high score form
