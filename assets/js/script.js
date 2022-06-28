@@ -37,40 +37,46 @@ questionArr = [
 ]
 
   // Test Timer
-  var counter = 10;
+  var counter = 20;
+// start quiz = start timer & question loop
+function startQuiz() {
+     // remove start button
+    startBtn.remove();
 
-  // Test Timer Countdown
-var count = function() {
-    if (counter > 0) {
-        counter--;
-        counterEl.textContent = ("Timer: " + counter);
-    }
-    else {
-        counter = 0;
-        counterEl.textContent = ("Timer: " + counter);
-        endQuiz();
-        return;
-    }
-};
+    // start timer
+    console.log("start timer");
+    // Counter Countdown Interval
+    var countdownEl = setInterval(count, 1000);
 
-// Counter Countdown Interval
-var countdownEl = setInterval(count, 1000);
-function countdown() {
-    countdownEl
+    // Test Timer Countdown
+    function count() {
+        if (counter > 0) {
+            counter--;
+            counterEl.textContent = ("Timer: " + counter);
+        }else{
+            clearInterval (countdownEl);
+            counter = 0;
+            counterEl.textContent = ("Timer: " + counter);
+            endQuiz();
+            return;
+        }
     };
 
+ // display first question 
+ generateQuestion();
 
 // display & loop through questions on click
-var generateQuestion = function() { 
+function generateQuestion() { 
+
 // generate questions
     var currentQuestion = questionArr[currentQuestionIndex];
     if (currentQuestionIndex < questionArr.length) {
-        // Question text
-        pageTitleEl.textContent = currentQuestion.question;
-        pageTitleEl.className = "questions";
+    // Question text
+    pageTitleEl.textContent = currentQuestion.question;
+    pageTitleEl.className = "questions";
     console.log(currentQuestion)
- // generate answer choices
-    //  empty pageContentEl
+    // generate answer choices
+        //  empty pageContentEl
     pageContentEl.textContent = "";
     pageContentEl.className = "answers-box"
 
@@ -99,33 +105,22 @@ var generateQuestion = function() {
         
         currentQuestionIndex++;
 
-        var timeRemaining = countdown;
-        console.log(timeRemaining)
         // connect question change to answer click
         answerChoices.addEventListener("click", generateQuestion);
+        
     } else {
+        clearInterval(countdownEl);
         endQuiz();
-        clearInterval(countdown);
     }    
+
 };
 
 
-// start quiz = start timer & question loop
-function startQuiz() {
-    console.log("start timer");
-    // Start timer countdown
-    countdown();
-    // display first question 
-    generateQuestion();
-     // remove start button
-    startBtn.remove();
+
 };
            
 // End of Quiz Page
 function endQuiz() {
-    // stop timer
-   clearInterval(countdownEl);
-    
     // page title
     pageTitleEl.textContent = "All Done!";
     pageTitleEl.className = "end-title";
@@ -157,3 +152,4 @@ function endQuiz() {
     
 // connect start button to timer
 startBtn.addEventListener("click", startQuiz);
+
