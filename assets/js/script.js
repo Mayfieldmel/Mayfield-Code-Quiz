@@ -1,4 +1,7 @@
 
+// I spent 4 days on this. I ran out of time to finish high score stuff.
+
+
 var startBtn = document.querySelector("#start-btn");
 var pageContentEl =  document.querySelector("#main-content");
 var pageTitleEl = document.querySelector("#title");
@@ -12,27 +15,27 @@ var questionArr = [
     {
     question: "Commonly used data types do NOT include:",
     answers: ["1. strings", "2. booleans", "3. alerts", "4. numbers"],
-    correctAnswer: "3. alerts" // i = 2
+    correctAnswer: "3. alerts" 
     },
     {
     question: "The condition in an if/else statement is enclosed with ________________.",
     answers: ["1. quotes", "2. curly brackets", "3. parentheses", "4. square brackets"],
-    correctAnswer: "3. parentheses" // i = 2
+    correctAnswer: "3. parentheses" 
     },
     {
     question: "Arrays in JavaScript can be used to store ______________.",
     answers: ["1. numbers and strings", "2. other arrays", "3. booleans", "4. all of the above"],
-    correctAnswer: "4. all of the above" // i = 3
+    correctAnswer: "4. all of the above" 
     },
     {
     question: "String values must be enclosed within ____________ when being assigned to variables.",
     answers: ["1. commas", "2. curly brackets", "3. quotes", "4. parentheses"],
-    correctAnswer: "3. quotes" // i = 2
+    correctAnswer: "3. quotes" 
     },
     {
     question:  "A very useful tool used during development and debugging for printing content to the debugger is:",
     answers: ["1. JavaScript", "2. terminal/bash", "3. for loops", "4. console log"],
-    correctAnswer: "4. console log" // i = 3
+    correctAnswer: "4. console log"
     }
 ]
 
@@ -109,7 +112,14 @@ function generateQuestion() {
                 result.className =  "results";
                 pageContentEl.appendChild(result);
         } else { 
-            counter = counter - 10;
+            if (counter > 10) {
+                counter = counter - 10;
+            }else{
+                counter = 0;
+                clearInterval(countdownInterval);
+                endQuiz();
+
+            }
 
             var result = document.createElement("p");
                 result.textContent = "Wrong!";
@@ -136,7 +146,7 @@ function startQuiz() {
 
     
 };
-           
+var highScores = []; 
 // End of Quiz Page
 function endQuiz() {
     // page title
@@ -147,6 +157,7 @@ function endQuiz() {
         console.log("final score: " + finalScore);
         pageContentEl.textContent = ("Your Final Score is " + finalScore);
         pageContentEl.className = "end-text";
+        counterEl.textContent = ("Timer: " + counter);
     // high score form
     var highScoreForm = document.createElement("form");
         highScoreForm.className = "score-form";
@@ -164,10 +175,80 @@ function endQuiz() {
         highScoreForm.appendChild(formBtn);
     // main tag formatting
         mainEl.className = "end-page"
+        
+        highScoreForm.addEventListener("submit", saveScore)
+        
+        function saveScore(event) {
+            event.preventDefault();
+            console.log(formInput.value);
+            playerScore = formInput.value + "-" + finalScore;
+            localStorage.setItem("score", "");
+            highScores = localStorage.getItem("score");
+            console.log(highScores)
+            highScores = highScores + playerScore;
+            console.log(highScores);
+            localStorage.setItem("score", highScores);
+            var highScoreStr = localStorage.getItem("score");
+            var displayScoreArr = highScoreStr.split(","); 
+                    console.log(displayScoreArr);
+            pageTitleEl.textContent = "High Score";
+            pageContentEl.innerHTML = "";
+            var scoreList = document.createElement("ol");
+                pageContentEl.appendChild(scoreList);
+                function createListItem () {
+                    
+                    for (var i = 0; i < displayScoreArr.length; i++) {
+                        var scoreListItem = document.createElement("li");
+                        scoreListItem.innerHTML = displayScoreArr[i];
+                        JSON.stringify(scoreListItem);
+                        scoreList.appendChild(scoreListItem);
+                    }; 
+                    }
+                    createListItem();
+                   
+            var buttons = document.createElement("div");
+                buttons.className = "button-box";
+                pageContentEl.appendChild(buttons);
+            var goHome = document.createElement("button");
+                goHome.textContent = "Go back";
+                goHome.className = "quiz-btn";
+                goHome.id = "backHome"
+                buttons.appendChild(goHome);
+              
+            var clearScores = document.createElement("button");
+                clearScores.textContent = "Clear high scores";
+                clearScores.className = "quiz-btn";
+                clearScores.id = "clears-scores"
+                buttons.appendChild(clearScores);
+
+            buttons.addEventListener("click", scorePageClick);
+                function scorePageClick() { 
+                    if (event.target.id.value == "backHome") {
+                        document.location.reload();
+                    } else {
+                        console.log("clear");
+                        localStorage.clear();
+                        scoreList.innerHTML = ""
+                    }
+                };
+
+           
+                    
+  
+        }
+    
 };
+
+
+
+    
+
+
 
 
     
 // connect start button to timer
 startBtn.addEventListener("click", startQuiz);
+
+
 

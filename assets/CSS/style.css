@@ -119,8 +119,19 @@ h1 {
 }
 
 .results {
+    display: block;
     font-style: italic;
     border-top: 2px solid lightgray;
     color: lightgrey;
     font-size: 18px;
+    position: absolute;
+    top: 420px;
+    width: 80%;
+}
+
+.button-box {
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    right: 100px;
 }
