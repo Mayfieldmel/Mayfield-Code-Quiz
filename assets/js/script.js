@@ -8,6 +8,7 @@ var pageTitleEl = document.querySelector("#title");
 var counterEl = document.querySelector("#timer");
 var viewScoreEl = document.querySelector("#score-page");
 var mainEl = document.querySelector("#main");
+var bodyEl = document.querySelector("#body");
 
 var currentQuestionIndex = 0;
 
@@ -42,6 +43,7 @@ var questionArr = [
   // Test Timer
 var counter = 33;
 var countdownInterval;
+var highScores = []; 
 
 // start quiz = start timer & question loop
 function count() {
@@ -144,9 +146,9 @@ function startQuiz() {
      // display first question 
    generateQuestion();
 
-    
+
 };
-var highScores = []; 
+
 // End of Quiz Page
 function endQuiz() {
     // page title
@@ -179,25 +181,41 @@ function endQuiz() {
         highScoreForm.addEventListener("submit", saveScore)
         
         function saveScore(event) {
+            // remove form
             highScoreForm.remove();
+            // prevent refresh
             event.preventDefault();
-            console.log(formInput.value);
-            playerScore = formInput.value + "-" + finalScore;
-            localStorage.setItem("score", "");
-            highScores = localStorage.getItem("score");
-            console.log(highScores)
-            highScores = highScores + playerScore;
-            console.log(highScores);
-            localStorage.setItem("score", highScores);
-            var highScoreStr = localStorage.getItem("score");
-            var displayScoreArr = highScoreStr.split(","); 
-                    console.log(displayScoreArr);
+            // change page title & body
             pageTitleEl.textContent = "High Score";
             pageContentEl.innerHTML = "";
+            
+            // create playerScore variable
+            var playerScore = formInput.value + "-" + finalScore;
+            // get scores from storage
+            highScores = localStorage.getItem("score");
+
+                if (highScores === null) {
+                    highScores = "MJM-100";
+                    // return false;
+                } else {
+                    // highScores = highScores + "," + playerScore;
+                };
+            // add player score to the scores from storage   
+            highScores = highScores + "," + playerScore;
+            // push the new string list to storage for safe keeping
+            localStorage.setItem("score", highScores);
+
+        // display string as list
+            // pull complete list of scores from storage
+            var highScoreStr = localStorage.getItem("score");
+            // split the string at each comma
+            var displayScoreArr = highScoreStr.split(","); 
+                    console.log(displayScoreArr);
+            // create ordered list
             var scoreList = document.createElement("ol");
                 pageContentEl.appendChild(scoreList);
                 function createListItem () {
-                    
+                    // dynamically create list items for each score
                     for (var i = 0; i < displayScoreArr.length; i++) {
                         var scoreListItem = document.createElement("li");
                         scoreListItem.innerHTML = displayScoreArr[i];
@@ -206,22 +224,25 @@ function endQuiz() {
                     }; 
                     }
                     createListItem();
-                   
+            // buttons flex box
             var buttons = document.createElement("div");
                 buttons.className = "button-box";
                 pageContentEl.appendChild(buttons);
+
+            // Go back button = back to home page
             var goHome = document.createElement("button");
                 goHome.textContent = "Go back";
                 goHome.className = "quiz-btn";
                 goHome.id = "backHome"
                 buttons.appendChild(goHome);
-              
+            // clear scores button empties local storage and clears score list display
             var clearScores = document.createElement("button");
                 clearScores.textContent = "Clear high scores";
                 clearScores.className = "quiz-btn";
                 clearScores.id = "clears-scores"
                 buttons.appendChild(clearScores);
 
+            // go home or clear based on target click event
             buttons.addEventListener("click", scorePageClick);
                 function scorePageClick(event) {
                     if (event.target.id == "backHome") {
@@ -233,25 +254,80 @@ function endQuiz() {
                         scoreList.innerHTML = "";
                         console.log(event.target);
                     }
-                };
-
-           
-                    
+                };      
   
         }
     
 };
-
-
-
     
+// view high scores button 
+viewScoreEl.addEventListener("click", highScorePage);
+// change page to display high scores
+function highScorePage() {
+    clearInterval(countdownInterval);
+    var scorePageEl = document.createElement("div")
+    scorePageEl.className = "score-page"
+    bodyEl.appendChild(scorePageEl);
 
-
-
-
+      // change page title & body
+    pageTitleEl.textContent = "High Score";
+    pageTitleEl.className = "score-title";
+    pageContentEl.textContent = "";
+    pageContentEl.className = "end-text";
+          // remove start button
+    startBtn.remove();
     
-// connect start button to timer
-startBtn.addEventListener("click", startQuiz);
+// display string as list
+        // pull complete list of scores from storage
+        var highScoreStr = localStorage.getItem("score");
+        // split the string at each comma
+        var displayScoreArr = highScoreStr.split(","); 
+                console.log(displayScoreArr);
+        // create ordered list
+        var scoreList = document.createElement("ol");
+            scoreList.className = "score-list";
+            pageContentEl.appendChild(scoreList);
+            function createListItem () {
+                // dynamically create list items for each score
+                for (var i = 0; i < displayScoreArr.length; i++) {
+                    var scoreListItem = document.createElement("li");
+                    scoreListItem.innerHTML = displayScoreArr[i];
+                    JSON.stringify(scoreListItem);
+                    scoreList.appendChild(scoreListItem);
+                }; 
+                }
+                createListItem();
 
+        // buttons flex box
+        var buttons = document.createElement("div");
+        buttons.className = "score-btns";
+        pageContentEl.appendChild(buttons);
+        // Go back button = back to home page
+        var goHome = document.createElement("button");
+        goHome.textContent = "Go back";
+        goHome.className = "quiz-btn";
+        goHome.id = "backHome"
+        buttons.appendChild(goHome);
+        // clear scores button empties local storage and clears score list display
+        var clearScores = document.createElement("button");
+        clearScores.textContent = "Clear high scores";
+        clearScores.className = "quiz-btn";
+        clearScores.id = "clears-scores"
+        buttons.appendChild(clearScores);
 
-
+        // go home or clear based on target click event
+        buttons.addEventListener("click", scorePageClick);
+        function scorePageClick(event) {
+            if (event.target.id == "backHome") {
+                console.log(event.target.id);
+                document.location.reload();
+            } else {
+                console.log("clear");
+                localStorage.clear();
+                scoreList.innerHTML = "";
+                console.log(event.target);
+            }
+        };      
+};
+    // connect start button to timer
+    startBtn.addEventListener("click", startQuiz);
