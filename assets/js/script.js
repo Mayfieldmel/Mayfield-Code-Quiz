@@ -179,6 +179,7 @@ function endQuiz() {
         highScoreForm.addEventListener("submit", saveScore)
         
         function saveScore(event) {
+            highScoreForm.remove();
             event.preventDefault();
             console.log(formInput.value);
             playerScore = formInput.value + "-" + finalScore;
@@ -222,13 +223,15 @@ function endQuiz() {
                 buttons.appendChild(clearScores);
 
             buttons.addEventListener("click", scorePageClick);
-                function scorePageClick() { 
-                    if (event.target.id.value == "backHome") {
+                function scorePageClick(event) {
+                    if (event.target.id == "backHome") {
+                        console.log(event.target.id);
                         document.location.reload();
                     } else {
                         console.log("clear");
                         localStorage.clear();
-                        scoreList.innerHTML = ""
+                        scoreList.innerHTML = "";
+                        console.log(event.target);
                     }
                 };
 
