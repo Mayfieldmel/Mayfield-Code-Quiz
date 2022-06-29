@@ -41,7 +41,7 @@ var questionArr = [
 ]
 
   // Test Timer
-var counter = 33;
+var counter = 76;
 var countdownInterval;
 var highScores = []; 
 
