@@ -195,7 +195,7 @@ function endQuiz() {
             highScores = localStorage.getItem("score");
 
                 if (highScores === null) {
-                    highScores = "MJM-100";
+                    highScores = "MJM-70";
                     // return false;
                 } else {
                     // highScores = highScores + "," + playerScore;
