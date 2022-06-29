@@ -2,7 +2,7 @@
 
 This repo houses the assets used to build the Mayfield Code Quiz, available at https://mayfieldmel.github.io/Mayfield-Code-Quiz/ .
 
-![Code-Quiz] (./assets/images/code-quiz.gif)
+![Code-Quiz](./assets/images/code-quiz.gif)
 
 ## The Quiz
 
