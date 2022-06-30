@@ -43,7 +43,6 @@ var questionArr = [
   // Test Timer
 var counter = 76;
 var countdownInterval;
-var highScores = []; 
 
 // start quiz = start timer & question loop
 function count() {
@@ -168,6 +167,7 @@ function endQuiz() {
         formText.innerHTML = "Enter initials: ";
         highScoreForm.appendChild(formText);
     var formInput = document.createElement("input");
+        formInput.type = "text";
         formInput.className = "input-box"
         highScoreForm.appendChild(formInput);
     var formBtn = document.createElement("button");
@@ -192,16 +192,14 @@ function endQuiz() {
             // create playerScore variable
             var playerScore = formInput.value + "-" + finalScore;
             // get scores from storage
-            highScores = localStorage.getItem("score");
+            var highScores = localStorage.getItem("score");
 
-                if (highScores === null) {
-                    highScores = "MJM-70";
-                    // return false;
-                } else {
-                    // highScores = highScores + "," + playerScore;
-                };
             // add player score to the scores from storage   
-            highScores = highScores + "," + playerScore;
+            if (highScores) {
+                highScores = highScores + "," + playerScore;
+            } else {
+                highScores = playerScore;
+            }
             // push the new string list to storage for safe keeping
             localStorage.setItem("score", highScores);
 
@@ -209,8 +207,9 @@ function endQuiz() {
             // pull complete list of scores from storage
             var highScoreStr = localStorage.getItem("score");
             // split the string at each comma
-            var displayScoreArr = highScoreStr.split(","); 
-                    console.log(displayScoreArr);
+            var displayScoreArr = highScoreStr.split(",").sort(function(a, b){
+                return parseInt(b.split("-")[1]) - parseInt(a.split("-")[1]);
+            });
             // create ordered list
             var scoreList = document.createElement("ol");
                 pageContentEl.appendChild(scoreList);
@@ -278,56 +277,57 @@ function highScorePage() {
     startBtn.remove();
     
 // display string as list
-        // pull complete list of scores from storage
-        var highScoreStr = localStorage.getItem("score");
-        // split the string at each comma
-        var displayScoreArr = highScoreStr.split(","); 
-                console.log(displayScoreArr);
-        // create ordered list
-        var scoreList = document.createElement("ol");
-            scoreList.className = "score-list";
-            pageContentEl.appendChild(scoreList);
-            function createListItem () {
-                // dynamically create list items for each score
-                for (var i = 0; i < displayScoreArr.length; i++) {
-                    var scoreListItem = document.createElement("li");
-                    scoreListItem.innerHTML = displayScoreArr[i];
-                    JSON.stringify(scoreListItem);
-                    scoreList.appendChild(scoreListItem);
-                }; 
-                }
-                createListItem();
+    // pull complete list of scores from storage
+    var highScoreStr = localStorage.getItem("score");
+    // split the string at each comma
+    var displayScoreArr = highScoreStr.split(",").sort(function(a, b){
+        return parseInt(b.split("-")[1]) - parseInt(a.split("-")[1]);
+    });
+    // create ordered list
+    var scoreList = document.createElement("ol");
+        scoreList.className = "score-list";
+        pageContentEl.appendChild(scoreList);
+        function createListItem () {
+            // dynamically create list items for each score
+            for (var i = 0; i < displayScoreArr.length; i++) {
+                var scoreListItem = document.createElement("li");
+                scoreListItem.innerHTML = displayScoreArr[i];
+                JSON.stringify(scoreListItem);
+                scoreList.appendChild(scoreListItem);
+            }; 
+            }
+            createListItem();
 
-        // buttons flex box
-        var buttons = document.createElement("div");
+    // buttons flex box
+    var buttons = document.createElement("div");
         buttons.className = "score-btns";
         pageContentEl.appendChild(buttons);
-        // Go back button = back to home page
-        var goHome = document.createElement("button");
+    // Go back button = back to home page
+    var goHome = document.createElement("button");
         goHome.textContent = "Go back";
         goHome.className = "quiz-btn";
         goHome.id = "backHome"
         buttons.appendChild(goHome);
-        // clear scores button empties local storage and clears score list display
-        var clearScores = document.createElement("button");
+    // clear scores button empties local storage and clears score list display
+    var clearScores = document.createElement("button");
         clearScores.textContent = "Clear high scores";
         clearScores.className = "quiz-btn";
         clearScores.id = "clears-scores"
         buttons.appendChild(clearScores);
 
-        // go home or clear based on target click event
-        buttons.addEventListener("click", scorePageClick);
-        function scorePageClick(event) {
-            if (event.target.id == "backHome") {
-                console.log(event.target.id);
-                document.location.reload();
-            } else {
-                console.log("clear");
-                localStorage.clear();
-                scoreList.innerHTML = "";
-                console.log(event.target);
-            }
-        };      
+    // go home or clear based on target click event
+    buttons.addEventListener("click", scorePageClick);
+    function scorePageClick(event) {
+        if (event.target.id == "backHome") {
+            console.log(event.target.id);
+            document.location.reload();
+        } else {
+            console.log("clear");
+            localStorage.clear();
+            scoreList.innerHTML = "";
+            console.log(event.target);
+        }
+    };      
 };
     // connect start button to timer
     startBtn.addEventListener("click", startQuiz);
