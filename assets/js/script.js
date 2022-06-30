@@ -96,7 +96,6 @@ function generateQuestion() {
             answerChoices.appendChild(answerChoice4);
         
         currentQuestionIndex++;
-        
 
         // connect question change to answer click
         answerChoices.addEventListener("click", generateQuestion);
@@ -144,9 +143,8 @@ function startQuiz() {
         // Test Timer Countdown
      // display first question 
    generateQuestion();
-
-
 };
+
 
 // End of Quiz Page
 function endQuiz() {
@@ -254,9 +252,7 @@ function endQuiz() {
                         console.log(event.target);
                     }
                 };      
-  
-        }
-    
+        } 
 };
     
 // view high scores button 
@@ -329,5 +325,6 @@ function highScorePage() {
         }
     };      
 };
+
     // connect start button to timer
     startBtn.addEventListener("click", startQuiz);
