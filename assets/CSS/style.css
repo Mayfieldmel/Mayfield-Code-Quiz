@@ -89,6 +89,8 @@ h1 {
 .end-page{
     width: 55%;
     margin: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .end-title {
@@ -107,17 +109,16 @@ h1 {
 .score-form {
     display: flex;
     justify-content: space-between;
-    width: 40%;
+    width: auto;
     padding: 20px;
-    position: absolute;
-    right: 470px;
+    position: relative;
 
 }
 
 .input-box {
     width: 60%;
     height: 30px;
-    padding: 5px;
+    margin: 5px 25px;
 }
 
 .results {

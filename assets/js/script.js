@@ -151,12 +151,15 @@ function endQuiz() {
     // page title
     pageTitleEl.textContent = "All Done!";
     pageTitleEl.className = "end-title";
-    // Test score
+    // Display Score
+    pageContentEl.innerHTML = "";
     var finalScore = counter;
-        console.log("final score: " + finalScore);
-        pageContentEl.textContent = ("Your Final Score is " + finalScore);
-        pageContentEl.className = "end-text";
+    var endTextEl = document.createElement("p");
+        endTextEl.textContent = ("Your Final Score is " + finalScore);
+        endTextEl.className = "end-text";
+        pageContentEl.appendChild(endTextEl);
         counterEl.textContent = ("Timer: " + counter);
+        console.log("final score: " + finalScore);
     // high score form
     var highScoreForm = document.createElement("form");
         highScoreForm.className = "score-form";
