@@ -110,7 +110,7 @@ function generateQuestion() {
             var result = document.createElement("p");
                 result.textContent = "Correct!";
                 result.className =  "results";
-                pageContentEl.appendChild(result);
+                mainEl.appendChild(result);
         } else { 
             if (counter > 10) {
                 counter = counter - 10;
@@ -187,9 +187,10 @@ function endQuiz() {
             // prevent refresh
             event.preventDefault();
             // change page title & body
+            mainEl.innerHTML = "";
             pageTitleEl.textContent = "High Score";
-            pageContentEl.innerHTML = "";
-            
+            pageTitleEl.className = "score-title"
+            mainEl.appendChild(pageTitleEl);
             // create playerScore variable
             var playerScore = formInput.value + "-" + finalScore;
             // get scores from storage
@@ -213,7 +214,8 @@ function endQuiz() {
             });
             // create ordered list
             var scoreList = document.createElement("ol");
-                pageContentEl.appendChild(scoreList);
+                scoreList.className = "score-list"
+                mainEl.appendChild(scoreList);
                 function createListItem () {
                     // dynamically create list items for each score
                     for (var i = 0; i < displayScoreArr.length; i++) {
@@ -227,7 +229,7 @@ function endQuiz() {
             // buttons flex box
             var buttons = document.createElement("div");
                 buttons.className = "button-box";
-                pageContentEl.appendChild(buttons);
+                mainEl.appendChild(buttons);
 
             // Go back button = back to home page
             var goHome = document.createElement("button");
@@ -262,6 +264,7 @@ function endQuiz() {
 viewScoreEl.addEventListener("click", highScorePage);
 // change page to display high scores
 function highScorePage() {
+    mainEl.textContent = "";
     clearInterval(countdownInterval);
     var scorePageEl = document.createElement("div")
     scorePageEl.className = "score-page"
@@ -270,8 +273,11 @@ function highScorePage() {
       // change page title & body
     pageTitleEl.textContent = "High Score";
     pageTitleEl.className = "score-title";
+    mainEl.appendChild(pageTitleEl);
     pageContentEl.textContent = "";
     pageContentEl.className = "end-text";
+    mainEl.appendChild(pageContentEl);
+
           // remove start button
     startBtn.remove();
     
